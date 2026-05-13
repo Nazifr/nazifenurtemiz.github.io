@@ -1,0 +1,1078 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Nazife Nur Temiz - Computer Engineering Student, AI & IoT">
+<meta name="keywords" content="computer engineering, AI, IoT, ESP32, Spring Boot, MQTT">
+<title>Nazife Nur Temiz -- Computer Engineering Student</title>
+<style type="text/css">
+
+body {
+  background-color: #c0c0c0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23c0c0c0'/%3E%3Crect width='1' height='1' fill='%23b8b8b8'/%3E%3Crect x='2' y='2' width='1' height='1' fill='%23b8b8b8'/%3E%3C/svg%3E");
+  margin: 0;
+  padding: 0;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12pt;
+  color: #000000;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 20 24'%3E%3Cpolygon points='1,1 1,19 5,15 8,23 11,21 8,13 14,13' fill='white' stroke='black' stroke-width='1.2'/%3E%3C/svg%3E") 1 1, default;
+}
+
+a {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 20 24'%3E%3Cpolygon points='1,1 1,19 5,15 8,23 11,21 8,13 14,13' fill='%2300aaff' stroke='black' stroke-width='1.2'/%3E%3C/svg%3E") 1 1, pointer;
+  color: #0000cc;
+  text-decoration: underline;
+}
+a:visited { color: #551a8b; }
+a:hover   { color: #cc0000; }
+
+.win-titlebar {
+  background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+  color: #ffffff;
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 11pt;
+  font-weight: bold;
+  padding: 3px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.win-btn {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  width: 16px;
+  height: 14px;
+  font-size: 9pt;
+  font-weight: bold;
+  font-family: "Arial", sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  cursor: default;
+  color: #000;
+  text-decoration: none;
+}
+
+.win-btn:hover { background: #d4d0c8; color: #000; }
+
+.btn {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 10pt;
+  font-weight: bold;
+  padding: 3px 12px;
+  color: #000000;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+.btn:hover { background: #d8d8d8; color: #000000; }
+.btn:active { border-color: #808080 #ffffff #ffffff #808080; }
+
+hr.raised {
+  border: none;
+  border-top: 2px solid #ffffff;
+  border-bottom: 2px solid #808080;
+  margin: 6px 0;
+}
+hr.sunken {
+  border: none;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #ffffff;
+  margin: 4px 0;
+}
+
+#page-outer {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+#toolbar {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.toolbar-btn {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  font-family: "Arial", sans-serif;
+  font-size: 9pt;
+  padding: 2px 8px;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.toolbar-btn:hover { background: #d8d8d8; color: #000; }
+.toolbar-sep { width: 1px; height: 22px; background: #808080; border-right: 1px solid #ffffff; margin: 0 2px; }
+
+#location-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px;
+  background: #c0c0c0;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #ffffff;
+}
+#location-label { font-family: "Arial", sans-serif; font-size: 9pt; font-weight: bold; white-space: nowrap; }
+#location-input {
+  flex: 1;
+  background: #ffffff;
+  border: 2px solid;
+  border-color: #808080 #dfdfdf #dfdfdf #808080;
+  font-family: "Arial", sans-serif;
+  font-size: 9pt;
+  padding: 1px 4px;
+  color: #000080;
+  outline: none;
+}
+
+.marquee-area {
+  background: #000080;
+  color: #ffffff;
+  font-family: "Arial", sans-serif;
+  font-size: 9pt;
+  font-weight: bold;
+  padding: 3px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-inner {
+  display: inline-block;
+  animation: marquee-scroll 22s linear infinite;
+}
+@keyframes marquee-scroll {
+  from { transform: translateX(780px); }
+  to   { transform: translateX(-100%); }
+}
+
+#main-frame {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+#layout-table { width: 100%; border-collapse: collapse; }
+
+#sidebar {
+  width: 170px;
+  background: #c0c0c0;
+  border-right: 2px solid #808080;
+  padding: 8px 4px;
+  vertical-align: top;
+}
+
+#sidebar-logo {
+  background: #ffffff;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  padding: 6px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.sidebar-logo-text { font-family: "Arial", "Helvetica", sans-serif; font-size: 13pt; font-weight: bold; color: #000080; line-height: 1.2; }
+.sidebar-logo-sub  { font-family: "Arial", sans-serif; font-size: 8pt; color: #444444; margin-top: 2px; }
+
+.sidebar-nav { list-style: none; padding: 0; margin: 0; }
+.sidebar-nav li { margin-bottom: 2px; }
+.sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 10pt;
+  font-weight: bold;
+  font-style: italic;
+  color: #000080;
+  text-decoration: none;
+  padding: 3px 4px;
+}
+.sidebar-nav li a:hover { background: #000080; color: #ffffff; text-decoration: none; }
+
+.nav-ball {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #b0a0ff, #5040c0 55%, #2020a0);
+  border: 1px solid #2020a0;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+#content-area { background: #ffffff; padding: 12px 16px; vertical-align: top; }
+
+.page-banner {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  padding: 6px 12px;
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 16pt;
+  font-weight: bold;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+h2.section {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 13pt;
+  font-weight: bold;
+  color: #000080;
+  border-bottom: 1px solid #c0c0c0;
+  padding-bottom: 2px;
+  margin: 14px 0 6px 0;
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+}
+
+p { margin: 4px 0 8px 0; line-height: 1.5; }
+
+.exp-entry {
+  margin-bottom: 10px;
+  padding: 6px 8px;
+  background: #f4f4f4;
+  border: 1px solid;
+  border-color: #808080 #dfdfdf #dfdfdf #808080;
+}
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid #c0c0c0;
+  margin-bottom: 4px;
+  padding-bottom: 3px;
+}
+.exp-role    { font-family: "Arial", "Helvetica", sans-serif; font-size: 10pt; font-weight: bold; color: #000000; }
+.exp-company { font-family: "Arial", sans-serif; font-size: 10pt; color: #000080; font-weight: bold; }
+.exp-date    { font-family: "Courier New", Courier, monospace; font-size: 9pt; color: #444444; white-space: nowrap; }
+.exp-entry ul { margin: 4px 0 0 0; padding-left: 18px; }
+.exp-entry ul li { font-size: 11pt; line-height: 1.5; margin-bottom: 2px; }
+
+table.project-table { width: 100%; border-collapse: collapse; font-family: "Arial", "Helvetica", sans-serif; font-size: 10pt; }
+table.project-table th { background: #000080; color: #ffffff; font-weight: bold; padding: 4px 8px; text-align: left; border: 1px solid #000050; }
+table.project-table td { padding: 4px 8px; border: 1px solid #c0c0c0; vertical-align: top; line-height: 1.4; }
+table.project-table tr:nth-child(even) td { background: #f0f0f8; }
+table.project-table tr:hover td { background: #dde8ff; }
+
+.featured-box {
+  background: #ffffcc;
+  border: 2px solid;
+  border-color: #808000 #e8e800 #e8e800 #808000;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+}
+.featured-label { font-family: "Arial", sans-serif; font-size: 8pt; font-weight: bold; color: #808000; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+.featured-title { font-family: "Arial", "Helvetica", sans-serif; font-size: 12pt; font-weight: bold; color: #000080; margin-bottom: 4px; }
+.stat-box {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  padding: 4px 10px;
+  display: inline-block;
+  margin-top: 6px;
+  font-family: "Arial", sans-serif;
+  font-size: 10pt;
+  color: #800000;
+  font-weight: bold;
+}
+
+table.skills-table { width: 100%; border-collapse: collapse; font-family: "Arial", "Helvetica", sans-serif; font-size: 10pt; }
+table.skills-table td { padding: 4px 8px; border: 1px solid #c0c0c0; vertical-align: top; }
+table.skills-table .cat {
+  background: #c0c0c0;
+  font-weight: bold;
+  font-size: 9pt;
+  white-space: nowrap;
+  width: 130px;
+  border: 1px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+}
+
+#statusbar {
+  background: #c0c0c0;
+  border-top: 1px solid #808080;
+  padding: 2px 8px;
+  font-family: "Arial", sans-serif;
+  font-size: 8pt;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.status-panel {
+  background: #c0c0c0;
+  border: 1px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  padding: 1px 6px;
+  font-size: 8pt;
+}
+
+#bottom-nav {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.bottom-nav-item {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 10pt;
+  font-weight: bold;
+  padding: 3px 10px;
+  color: #000000;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.bottom-nav-item:hover { background: #000080; color: #ffffff; text-decoration: none; }
+
+.new-badge {
+  display: inline-block;
+  background: #ff0000;
+  color: #ffff00;
+  font-family: "Arial", sans-serif;
+  font-size: 8pt;
+  font-weight: bold;
+  padding: 1px 4px;
+  margin-left: 4px;
+  animation: badge-flash 1s step-end infinite;
+}
+@keyframes badge-flash {
+  0%, 100% { background: #ff0000; color: #ffff00; }
+  50%       { background: #ffff00; color: #ff0000; }
+}
+
+.spin-icon { display: inline-block; animation: spin 3s linear infinite; font-size: 10pt; line-height: 1; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.visitor-counter {
+  background: #000000;
+  color: #00ff00;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 10pt;
+  padding: 2px 6px;
+  border: 1px solid #008000;
+  display: inline-block;
+  letter-spacing: 0.1em;
+}
+
+.tab-bar { display: flex; gap: 1px; border-bottom: 2px solid #000080; }
+.tab {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 transparent #ffffff;
+  border-bottom: none;
+  font-family: "Arial", sans-serif;
+  font-size: 10pt;
+  font-weight: bold;
+  padding: 3px 12px;
+  color: #000000;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  bottom: -2px;
+}
+.tab.active { background: #ffffff; color: #000080; border-bottom: 2px solid #ffffff; z-index: 1; }
+.tab:hover:not(.active) { background: #d8d8d8; color: #000000; text-decoration: none; }
+
+.tab-content { display: none; padding: 10px 8px; background: #ffffff; border: 2px solid #808080; border-top: none; }
+.tab-content.active { display: block; }
+
+.contact-box {
+  background: #f0f0ff;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  padding: 10px 14px;
+}
+.contact-box input, .contact-box textarea {
+  background: #ffffff;
+  border: 2px solid;
+  border-color: #808080 #dfdfdf #dfdfdf #808080;
+  font-family: "Arial", sans-serif;
+  font-size: 10pt;
+  padding: 2px 4px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+}
+.contact-box label { font-family: "Arial", sans-serif; font-size: 10pt; font-weight: bold; display: block; margin: 6px 0 2px 0; }
+
+.link-list {
+  text-align: center;
+  font-family: "Arial", sans-serif;
+  font-size: 10pt;
+  padding: 6px 0;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+}
+.link-list a { color: #0000cc; text-decoration: underline; }
+
+.whats-new {
+  background: #e8f0ff;
+  border-left: 4px solid #0000cc;
+  padding: 4px 8px;
+  margin-bottom: 8px;
+  font-family: "Arial", sans-serif;
+  font-size: 10pt;
+}
+
+.img-placeholder {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Arial", sans-serif;
+  font-size: 9pt;
+  color: #444444;
+}
+
+/* BOOT */
+#boot-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  font-family: "Courier New", Courier, monospace;
+  color: #c0c0c0;
+  font-size: 12pt;
+  transition: opacity 0.4s;
+}
+.boot-bios-header { color: #ffffff; font-size: 11pt; text-align: center; margin-bottom: 16px; line-height: 1.6; }
+.boot-mem { color: #ffffff; font-size: 11pt; margin-bottom: 4px; }
+.boot-line { font-size: 11pt; color: #c0c0c0; margin: 1px 0; width: 500px; max-width: 90vw; opacity: 0; }
+.boot-line.show { opacity: 1; }
+.boot-line .ok   { float: right; color: #00ff00; }
+.boot-line .fail { float: right; color: #ff0000; }
+#boot-progress-bar { width: 500px; max-width: 90vw; height: 16px; background: #000000; border: 1px solid #808080; margin-top: 12px; position: relative; overflow: hidden; }
+#boot-bar-fill { height: 100%; width: 0; background: #0000aa; transition: width 0.05s linear; }
+#boot-progress-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 9pt; color: #ffffff; }
+#boot-press { color: #ffffff; font-size: 11pt; margin-top: 20px; display: none; animation: press-blink 0.8s step-end infinite; }
+@keyframes press-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+</style>
+</head>
+<body>
+
+<!-- BOOT SCREEN -->
+<div id="boot-overlay">
+  <div class="boot-bios-header">
+    NNT System BIOS v4.51PG<br>
+    Copyright (C) 2026, Nazife Nur Temiz. All Rights Reserved.<br>
+    <span style="font-size:9pt; color:#aaa;">Press DEL to enter SETUP</span>
+  </div>
+  <div class="boot-mem">Memory Test:&nbsp;&nbsp;<span id="boot-mem-num">0</span> KB OK</div>
+  <br>
+  <div class="boot-line" id="bl1">Detecting IDE drives... <span class="ok">OK</span></div>
+  <div class="boot-line" id="bl2">Loading portfolio.sys... <span class="ok">OK</span></div>
+  <div class="boot-line" id="bl3">Initializing AI modules... <span class="ok">OK</span></div>
+  <div class="boot-line" id="bl4">Mounting project database... <span class="ok">OK</span></div>
+  <div class="boot-line" id="bl5">Starting NNT Web Server 1.0... <span class="ok">OK</span></div>
+  <div id="boot-progress-bar">
+    <div id="boot-bar-fill"></div>
+    <div id="boot-progress-text">Loading Windows 98...</div>
+  </div>
+  <div id="boot-press">Press any key to continue _</div>
+</div>
+
+<div id="page-outer">
+
+  <!-- WINDOW TITLE BAR -->
+  <div class="win-titlebar">
+    <div style="display:flex; align-items:center; gap:5px;">
+      <span style="font-size:14pt;">🌐</span>
+      <span>Nazife Nur Temiz &mdash; Computer Engineering Portfolio</span>
+    </div>
+    <div style="display:flex; gap:2px;">
+      <div class="win-btn">_</div>
+      <div class="win-btn">&#9633;</div>
+      <div class="win-btn">&#10005;</div>
+    </div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div id="toolbar">
+    <a href="javascript:history.back()" class="toolbar-btn">&#9664; Back</a>
+    <a href="javascript:history.forward()" class="toolbar-btn">Forward &#9654;</a>
+    <a href="#" class="toolbar-btn">&#127968; Home</a>
+    <a href="#" class="toolbar-btn" onclick="location.reload(); return false;">&#8635; Reload</a>
+    <div class="toolbar-sep"></div>
+    <a href="#" class="toolbar-btn" onclick="showTab('projects'); return false;">&#128193; Projects</a>
+    <a href="mailto:nazifenurtemiz@gmail.com" class="toolbar-btn">&#9993; Mail</a>
+    <a href="https://github.com/Nazifr" target="_blank" class="toolbar-btn">&#128196; GitHub</a>
+  </div>
+
+  <!-- LOCATION BAR -->
+  <div id="location-bar">
+    <span id="location-label">Address:</span>
+    <input type="text" id="location-input" value="http://www.nazifenurtemiz.net/index.html" readonly>
+    <a href="#" class="btn" style="padding:1px 10px; font-size:9pt;">Go</a>
+  </div>
+
+  <!-- MARQUEE -->
+  <div class="marquee-area">
+    <span class="marquee-inner">
+      &#9733; Welcome to Nazife Nur Temiz's Home Page! &#9733; &nbsp;&nbsp;
+      Computer Engineering Student @ Dokuz Eyl&uuml;l University &nbsp;&middot;&nbsp;
+      AI &amp; IoT Systems &nbsp;&middot;&nbsp;
+      Bachelor Thesis: AI-Driven Smart Home System &nbsp;&middot;&nbsp;
+      nazifenurtemiz@gmail.com &nbsp;&middot;&nbsp; Last updated: 2026
+      &nbsp;&nbsp; &#9733;
+    </span>
+  </div>
+
+  <!-- MAIN FRAME -->
+  <div id="main-frame">
+    <table id="layout-table" cellpadding="0" cellspacing="0">
+    <tr>
+
+      <!-- SIDEBAR -->
+      <td id="sidebar">
+
+        <!-- Logo / Photo -->
+        <div id="sidebar-logo">
+          <!--
+            TODO: Kendi fotoğrafını ekle:
+            <img src="photo.jpg" width="130" alt="Nazife Nur Temiz">
+            Placeholder div'i kaldır.
+          -->
+          <div class="img-placeholder" style="width:130px; height:100px;">
+            [&nbsp;Photo&nbsp;]<br>
+            <span style="font-size:8pt;">photo.jpg</span>
+          </div>
+          <div class="sidebar-logo-text">NNT</div>
+          <div class="sidebar-logo-sub">Computer Engineering<br>DE&Uuml; &middot; &Izmir; &middot; 2026</div>
+        </div>
+
+        <hr class="sunken">
+
+        <!-- Nav list -->
+        <ul class="sidebar-nav">
+          <li><a href="#" onclick="showTab('about');      return false;"><span class="nav-ball"></span> About Me</a></li>
+          <li><a href="#" onclick="showTab('experience'); return false;"><span class="nav-ball"></span> Experience</a></li>
+          <li><a href="#" onclick="showTab('projects');   return false;"><span class="nav-ball"></span> Projects</a></li>
+          <li><a href="#" onclick="showTab('skills');     return false;"><span class="nav-ball"></span> Skills</a></li>
+          <li><a href="#" onclick="showTab('contact');    return false;"><span class="nav-ball"></span> Contact</a></li>
+          <!--
+            TODO: Yeni sayfa eklenince buraya da ekle:
+            <li><a href="#" onclick="showTab('reports'); return false;"><span class="nav-ball"></span> Reports</a></li>
+          -->
+        </ul>
+
+        <hr class="sunken">
+
+        <div style="padding:4px; font-family:'Arial',sans-serif; font-size:9pt;">
+          <div style="font-weight:bold; margin-bottom:4px; color:#000080;">Status:</div>
+          <div>&#128994; Online</div>
+          <div style="font-size:8pt; color:#444; margin-top:2px;">Open to opportunities</div>
+        </div>
+
+        <hr class="sunken">
+
+        <div style="padding:4px; font-family:'Arial',sans-serif; font-size:8pt; color:#444444;">
+          Visitor count:<br>
+          <div class="visitor-counter" id="visitor-counter">004721</div>
+        </div>
+
+        <hr class="sunken">
+
+        <div style="padding:4px; font-family:'Arial',sans-serif; font-size:8pt; color:#444444; line-height:1.6;">
+          Best viewed in:<br>
+          <b>800&times;600</b><br>
+          Netscape 4.0+<br>
+          Internet Explorer 4.0+
+        </div>
+
+      </td><!-- /sidebar -->
+
+      <!-- CONTENT -->
+      <td id="content-area">
+
+        <div class="page-banner">Nazife Nur Temiz &mdash; Computer Engineering Student</div>
+
+        <!-- TABS -->
+        <div class="tab-bar">
+          <a class="tab active" id="tab-about"      href="#" onclick="showTab('about');      return false;">About</a>
+          <a class="tab"        id="tab-experience" href="#" onclick="showTab('experience'); return false;">Experience</a>
+          <a class="tab"        id="tab-projects"   href="#" onclick="showTab('projects');   return false;">Projects</a>
+          <a class="tab"        id="tab-skills"     href="#" onclick="showTab('skills');     return false;">Skills</a>
+          <a class="tab"        id="tab-contact"    href="#" onclick="showTab('contact');    return false;">Contact</a>
+        </div>
+
+        <!-- ── ABOUT ──────────────────────────────────────── -->
+        <div class="tab-content active" id="content-about">
+
+          <div class="whats-new">
+            <b>What's New:</b> Bachelor thesis nearing completion &mdash; AI-Driven Smart Home IoT System!
+            <span class="new-badge">NEW</span>
+          </div>
+
+          <h2 class="section">Welcome to My Home Page</h2>
+
+          <p>
+            Merhaba! I am a Computer Engineering student at <b>Dokuz Eyl&uuml;l University</b>
+            in &Izmir;, Turkey, focused on <b>Artificial Intelligence</b> and <b>IoT systems</b>.
+            This page contains my academic and professional work, projects, and contact information.
+          </p>
+          <p>
+            I have experience in backend development (Spring Boot, Flask), real-time embedded systems
+            (ESP32, MQTT), and machine learning pipelines (LightGBM, YOLO, OpenCV).
+            My current focus is my bachelor thesis: an AI-driven smart home automation system.
+          </p>
+
+          <hr class="raised">
+
+          <h2 class="section">Education</h2>
+
+          <div class="exp-entry">
+            <div class="exp-header">
+              <div>
+                <span class="exp-role">B.S. in Computer Engineering</span>
+                &nbsp;&mdash;&nbsp;
+                <span class="exp-company">Dokuz Eyl&uuml;l University</span>
+              </div>
+              <div class="exp-date">September 2022 &mdash; Present</div>
+            </div>
+            <div style="font-family:'Arial',sans-serif; font-size:10pt; color:#444444;">
+              &Izmir;, Turkey &nbsp;&middot;&nbsp; Specialization: AI &amp; IoT Systems
+            </div>
+          </div>
+
+          <hr class="raised">
+
+          <h2 class="section">Quick Links</h2>
+
+          <div class="link-list">
+            [&nbsp;<a href="https://github.com/Nazifr" target="_blank">GitHub</a>
+            &nbsp;|&nbsp; <a href="https://linkedin.com/in/NazifeNurTemiz" target="_blank">LinkedIn</a>
+            &nbsp;|&nbsp;
+            <!-- TODO: CV PDF linki -->
+            <a href="./CV_NazifeNurTemiz.pdf" download>Download CV (PDF)</a>
+            &nbsp;|&nbsp; <a href="#" onclick="showTab('contact'); return false;">E-Mail Me</a>&nbsp;]
+          </div>
+
+        </div>
+
+        <!-- ── EXPERIENCE ──────────────────────────────────── -->
+        <div class="tab-content" id="content-experience">
+
+          <h2 class="section">Professional Experience</h2>
+
+          <div class="exp-entry">
+            <div class="exp-header">
+              <div>
+                <span class="exp-role">Hardware Engineering Intern</span>
+                &nbsp;&mdash;&nbsp;
+                <span class="exp-company">Dokuz Eyl&uuml;l University</span>
+              </div>
+              <div class="exp-date">Feb 2026 &mdash; Apr 2026 &nbsp;&middot;&nbsp; &Izmir;</div>
+            </div>
+            <ul>
+              <li>Developed an IoT system using <b>ESP32</b> with real-time data transmission over <b>MQTT</b>.</li>
+              <li>Enabled remote monitoring by exposing sensor data beyond local services, allowing mobile access to live data visualizations.</li>
+              <li>Integrated and optimized multiple sensors to improve data reliability and system performance.</li>
+            </ul>
+          </div>
+
+          <div class="exp-entry">
+            <div class="exp-header">
+              <div>
+                <span class="exp-role">Software Engineering Intern</span>
+                &nbsp;&mdash;&nbsp;
+                <span class="exp-company">Utarit</span>
+              </div>
+              <div class="exp-date">Jun 2025 &mdash; Jul 2025 &nbsp;&middot;&nbsp; Ankara</div>
+            </div>
+            <ul>
+              <li>Developed <b>RESTful APIs</b> using <b>Spring Boot</b> and integrated them with <b>MySQL</b> databases.</li>
+              <li>Worked on frontend&ndash;backend communication and bug fixing in a full-stack restaurant web application.</li>
+              <li>Implemented session management and feedback mechanisms to improve user experience and analytics.</li>
+            </ul>
+          </div>
+
+          <!--
+            TODO: YENİ DENEYİM ŞABLONU — kopyala ve doldur:
+            <div class="exp-entry">
+              <div class="exp-header">
+                <div>
+                  <span class="exp-role">UNVAN</span>
+                  &nbsp;&mdash;&nbsp;
+                  <span class="exp-company">ŞİRKET</span>
+                </div>
+                <div class="exp-date">AY YIL &mdash; AY YIL</div>
+              </div>
+              <ul>
+                <li>...</li>
+              </ul>
+            </div>
+          -->
+
+        </div>
+
+        <!-- ── PROJECTS ────────────────────────────────────── -->
+        <div class="tab-content" id="content-projects">
+
+          <h2 class="section">Projects &amp; Research</h2>
+
+          <!-- Featured: Thesis -->
+          <div class="featured-box">
+            <div class="featured-label">&#9733; Featured &mdash; Bachelor Thesis</div>
+            <div class="featured-title">AI Agent-Based Smart Home IoT System</div>
+            <p style="font-family:'Arial',sans-serif; font-size:10pt; margin:4px 0 6px 0;">
+              AI-driven smart home system for context-aware automation. Containerized architecture
+              using <b>Docker</b>, <b>MQTT</b>, <b>Node-RED</b>, and <b>InfluxDB</b>.
+              Hybrid inference engine combining <b>LightGBM</b> and <b>LLM-based reasoning</b>.
+            </p>
+            <div>
+              <div class="stat-box">Energy consumption reduced: 34.7%</div>
+              &nbsp;
+              <!-- TODO: Tez raporu linki ekle -->
+              <a href="#" class="btn" style="font-size:9pt; margin-top:4px; display:inline-block;">&#128196; View Report (PDF)</a>
+              &nbsp;
+              <a href="https://github.com/Nazifr" target="_blank" class="btn" style="font-size:9pt;">&#128193; GitHub</a>
+            </div>
+          </div>
+
+          <!--
+            TODO: Her proje için <tr> düzenle:
+            1. Proje adını ve GitHub linkini güncelle
+            2. Rapor varsa: <br><a href="rapor.pdf">Report</a> ekle Links td'sine
+          -->
+          <table class="project-table">
+            <thead>
+              <tr>
+                <th style="width:165px;">Project</th>
+                <th style="width:155px;">Technologies</th>
+                <th>Description</th>
+                <th style="width:75px; text-align:center;">Links</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>TEKNOFEST 2025 Combat UAV</b></td>
+                <td>YOLO, SORT, OpenCV, Python</td>
+                <td>Real-time object detection &amp; tracking for autonomous UAV. Contributed to perception and decision modules.</td>
+                <td style="text-align:center;"><a href="https://github.com/Nazifr" target="_blank">GitHub</a></td>
+              </tr>
+              <tr>
+                <td><b>NAHS: Neuro-Arithmetic Hybrid Sieve</b></td>
+                <td>Python, CNN, NumPy</td>
+                <td>Hybrid CNN-based approach for efficient large-scale primality testing in cryptography.</td>
+                <td style="text-align:center;"><a href="https://github.com/Nazifr" target="_blank">GitHub</a></td>
+              </tr>
+              <tr>
+                <td><b>Secure Comm. in LoRaWAN</b></td>
+                <td>LoRaWAN, Python, NS-3</td>
+                <td>Simulated LoRaWAN network behavior; developed packet recovery &amp; security mechanisms.</td>
+                <td style="text-align:center;"><a href="https://github.com/Nazifr" target="_blank">GitHub</a></td>
+              </tr>
+              <tr>
+                <td><b>Association Rule Mining</b></td>
+                <td>Flask, Apriori, FP-Growth, ECLAT</td>
+                <td>Web-based system comparing three association rule mining algorithms on real datasets.</td>
+                <td style="text-align:center;"><a href="https://github.com/Nazifr" target="_blank">GitHub</a></td>
+              </tr>
+              <tr>
+                <td><b>Smart Fabric Antennas</b></td>
+                <td>SDR, MATLAB, IoT</td>
+                <td>Research &amp; SDR-based optimization of textile antennas for IoT communication.</td>
+                <td style="text-align:center;"><a href="https://github.com/Nazifr" target="_blank">GitHub</a></td>
+              </tr>
+              <tr>
+                <td><b>RPG Battle App</b></td>
+                <td>PostgreSQL, Express, React, Node.js</td>
+                <td>PERN stack application with RESTful API and relational database design. Turn-based battle system.</td>
+                <td style="text-align:center;"><a href="https://github.com/Nazifr" target="_blank">GitHub</a></td>
+              </tr>
+              <tr>
+                <td><b>MAN Network Simulation</b></td>
+                <td>Cisco Packet Tracer</td>
+                <td>Multi-branch metropolitan area network with routing protocols and network services.</td>
+                <td style="text-align:center;"><a href="https://github.com/Nazifr" target="_blank">GitHub</a></td>
+              </tr>
+              <tr>
+                <td><b>Computer Design (Quartus)</b></td>
+                <td>Quartus, VHDL</td>
+                <td>Implemented ALU, registers, and control unit in a fully simulated processor architecture.</td>
+                <td style="text-align:center;"><a href="https://github.com/Nazifr" target="_blank">GitHub</a></td>
+              </tr>
+              <!--
+                TODO: YENİ PROJE ŞABLONU:
+                <tr>
+                  <td><b>PROJE ADI</b></td>
+                  <td>Teknoloji1, Teknoloji2</td>
+                  <td>Açıklama.</td>
+                  <td style="text-align:center;">
+                    <a href="GITHUB_URL" target="_blank">GitHub</a><br>
+                    <a href="RAPOR.pdf">Report</a>
+                  </td>
+                </tr>
+              -->
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- ── SKILLS ──────────────────────────────────────── -->
+        <div class="tab-content" id="content-skills">
+
+          <h2 class="section">Technical Skills</h2>
+
+          <!-- TODO: Yeni skill ekle — ilgili satıra yaz -->
+          <table class="skills-table" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="cat">Languages</td>
+              <td>Python &nbsp;&middot;&nbsp; Java &nbsp;&middot;&nbsp; C &nbsp;&middot;&nbsp; JavaScript &nbsp;&middot;&nbsp; SQL</td>
+            </tr>
+            <tr>
+              <td class="cat">Frameworks &amp; Tools</td>
+              <td>Spring Boot &nbsp;&middot;&nbsp; Flask &nbsp;&middot;&nbsp; Docker &nbsp;&middot;&nbsp; MQTT &nbsp;&middot;&nbsp; Node-RED &nbsp;&middot;&nbsp; Git</td>
+            </tr>
+            <tr>
+              <td class="cat">AI / Machine Learning</td>
+              <td>LightGBM &nbsp;&middot;&nbsp; OpenCV &nbsp;&middot;&nbsp; YOLO &nbsp;&middot;&nbsp; Pandas &nbsp;&middot;&nbsp; SMOTE &nbsp;&middot;&nbsp; Gemini API &nbsp;&middot;&nbsp; LLMs</td>
+            </tr>
+            <tr>
+              <td class="cat">Databases</td>
+              <td>PostgreSQL &nbsp;&middot;&nbsp; MySQL &nbsp;&middot;&nbsp; InfluxDB</td>
+            </tr>
+            <tr>
+              <td class="cat">Systems &amp; Hardware</td>
+              <td>Linux &nbsp;&middot;&nbsp; ESP32 &nbsp;&middot;&nbsp; LoRaWAN &nbsp;&middot;&nbsp; Cisco Packet Tracer &nbsp;&middot;&nbsp; Quartus &nbsp;&middot;&nbsp; MATLAB</td>
+            </tr>
+            <tr>
+              <td class="cat">Architecture</td>
+              <td>Microservices &nbsp;&middot;&nbsp; REST API &nbsp;&middot;&nbsp; IoT Systems &nbsp;&middot;&nbsp; Containerization</td>
+            </tr>
+            <tr>
+              <td class="cat">Languages (Spoken)</td>
+              <td>Turkish &mdash; Native &nbsp;&middot;&nbsp; English &mdash; Fluent</td>
+            </tr>
+          </table>
+
+        </div>
+
+        <!-- ── CONTACT ──────────────────────────────────────── -->
+        <div class="tab-content" id="content-contact">
+
+          <h2 class="section">Contact Information</h2>
+
+          <p>Feel free to reach me via e-mail or the links below.</p>
+
+          <div class="contact-box">
+            <table style="width:100%; font-family:'Arial',sans-serif; font-size:10pt; border-collapse:collapse;">
+              <tr>
+                <td style="padding:4px 8px; font-weight:bold; width:100px;">E-Mail:</td>
+                <td style="padding:4px 8px;"><a href="mailto:nazifenurtemiz@gmail.com">nazifenurtemiz@gmail.com</a></td>
+              </tr>
+              <tr>
+                <td style="padding:4px 8px; font-weight:bold;">GitHub:</td>
+                <td style="padding:4px 8px;"><a href="https://github.com/Nazifr" target="_blank">github.com/Nazifr</a></td>
+              </tr>
+              <tr>
+                <td style="padding:4px 8px; font-weight:bold;">LinkedIn:</td>
+                <td style="padding:4px 8px;"><a href="https://linkedin.com/in/NazifeNurTemiz" target="_blank">linkedin.com/in/NazifeNurTemiz</a></td>
+              </tr>
+              <tr>
+                <td style="padding:4px 8px; font-weight:bold;">Location:</td>
+                <td style="padding:4px 8px;">&Izmir;, Turkey &#127481;&#127479;</td>
+              </tr>
+            </table>
+
+            <hr class="sunken" style="margin:8px 0;">
+
+            <!--
+              TODO: Form aktif etmek için:
+              <form action="https://formspree.io/f/SENIN_ID" method="POST">
+              action attr'ını güncelle. onsubmit="fakeSubmit(event)" kısmını kaldır.
+            -->
+            <form onsubmit="fakeSubmit(event)">
+              <label>Your Name:</label>
+              <input type="text" name="name" placeholder="Your name">
+              <label>Your E-Mail:</label>
+              <input type="email" name="email" placeholder="your@email.com">
+              <label>Message:</label>
+              <textarea name="message" rows="4" placeholder="Your message..."></textarea>
+              <br><br>
+              <input type="submit" class="btn" value="Send Message &#9993;">
+            </form>
+          </div>
+
+        </div>
+
+      </td><!-- /content-area -->
+    </tr>
+    </table>
+  </div><!-- /main-frame -->
+
+  <!-- STATUS BAR -->
+  <div id="statusbar">
+    <span class="status-panel">Document: Done</span>
+    <span class="status-panel" id="status-url" style="flex:1; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">
+      http://www.nazifenurtemiz.net/index.html
+    </span>
+    <span class="status-panel"><span class="spin-icon">&#9881;</span>&nbsp;NNT/1.0</span>
+  </div>
+
+  <!-- BOTTOM NAV (Apple Computer 1996 style) -->
+  <div id="bottom-nav">
+    <span style="font-size:14pt; margin-right:4px;">&#127968;</span>
+    <a class="bottom-nav-item" href="#" onclick="showTab('about');      return false;">Home</a>
+    <a class="bottom-nav-item" href="#" onclick="showTab('experience'); return false;">Experience</a>
+    <a class="bottom-nav-item" href="#" onclick="showTab('projects');   return false;">Projects</a>
+    <a class="bottom-nav-item" href="#" onclick="showTab('skills');     return false;">Skills</a>
+    <a class="bottom-nav-item" href="mailto:nazifenurtemiz@gmail.com">E-Mail</a>
+    <a class="bottom-nav-item" href="https://github.com/Nazifr" target="_blank">GitHub</a>
+    <div style="margin-left:auto;">
+      <span class="win-btn" title="Help">?</span>
+    </div>
+  </div>
+
+  <!-- COPYRIGHT (Amazon 1995 style) -->
+  <div style="padding:6px 4px; font-family:'Arial',sans-serif; font-size:9pt; color:#444444;">
+    Copyright &copy; 2026 Nazife Nur Temiz. All rights reserved.<br>
+    <a href="mailto:nazifenurtemiz@gmail.com">nazifenurtemiz@gmail.com</a>
+  </div>
+
+</div><!-- /page-outer -->
+
+<script type="text/javascript">
+
+/* ── BOOT SEQUENCE ────────────────────────────────────── */
+function playBios() {
+  try {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    function beep(freq, start, dur, vol) {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = 'square';
+      o.frequency.setValueAtTime(freq, ctx.currentTime + start);
+      g.gain.setValueAtTime(0, ctx.currentTime + start);
+      g.gain.linearRampToValueAtTime(vol || 0.12, ctx.currentTime + start + 0.01);
+      g.gain.linearRampToValueAtTime(0, ctx.currentTime + start + dur);
+      o.start(ctx.currentTime + start);
+      o.stop(ctx.currentTime + start + dur + 0.05);
+    }
+    beep(1000, 0, 0.18, 0.14);
+  } catch(e) {}
+}
+
+function runBoot() {
+  var overlay = document.getElementById('boot-overlay');
+  var memEl   = document.getElementById('boot-mem-num');
+  var fill    = document.getElementById('boot-bar-fill');
+  var pText   = document.getElementById('boot-progress-text');
+  var press   = document.getElementById('boot-press');
+  var lines   = ['bl1','bl2','bl3','bl4','bl5'];
+
+  playBios();
+
+  var mem = 0, target = 65536;
+  var memTimer = setInterval(function() {
+    mem += Math.floor(Math.random() * 2048 + 1024);
+    if (mem >= target) { mem = target; clearInterval(memTimer); }
+    memEl.textContent = mem.toLocaleString();
+  }, 40);
+
+  lines.forEach(function(id, i) {
+    setTimeout(function() {
+      document.getElementById(id).classList.add('show');
+    }, 500 + i * 320);
+  });
+
+  var prog = 0;
+  var progTimer = setInterval(function() {
+    prog += Math.random() * 6 + 2;
+    if (prog > 100) prog = 100;
+    fill.style.width = prog + '%';
+    pText.textContent = 'Loading Windows 98... ' + Math.floor(prog) + '%';
+    if (prog >= 100) clearInterval(progTimer);
+  }, 60);
+
+  setTimeout(function() { press.style.display = 'block'; }, 3000);
+
+  function dismiss() {
+    overlay.style.opacity = '0';
+    setTimeout(function() { overlay.style.display = 'none'; }, 400);
+    document.removeEventListener('keydown', dismiss);
+    document.removeEventListener('click', dismiss);
+  }
+  setTimeout(dismiss, 4000);
+  document.addEventListener('keydown', dismiss);
+  document.addEventListener('click', dismiss);
+}
+
+if (!sessionStorage.getItem('booted')) {
+  sessionStorage.setItem('booted', '1');
+  runBoot();
+} else {
+  document.getElementById('boot-overlay').style.display = 'none';
+}
+
+/* ── TAB SYSTEM ───────────────────────────────────────── */
+var TAB_NAMES = ['about','experience','projects','skills','contact'];
+/* TODO: Yeni tab eklenince TAB_NAMES dizisine ismi ekle */
+
+function showTab(name) {
+  TAB_NAMES.forEach(function(t) {
+    var tab = document.getElementById('tab-' + t);
+    var cnt = document.getElementById('content-' + t);
+    var active = (t === name);
+    if (tab) { if (active) tab.classList.add('active'); else tab.classList.remove('active'); }
+    if (cnt) { if (active) cnt.classList.add('active'); else cnt.classList.remove('active'); }
+  });
+  document.getElementById('location-input').value =
+    'http://www.nazifenurtemiz.net/' + name + '.html';
+  document.getElementById('status-url').textContent =
+    'http://www.nazifenurtemiz.net/' + name + '.html';
+}
+
+/* ── VISITOR COUNTER ──────────────────────────────────── */
+var vc = parseInt(localStorage.getItem('visit_count') || '0') + 1;
+localStorage.setItem('visit_count', vc);
+document.getElementById('visitor-counter').textContent = String(vc < 1000 ? vc + 4000 : vc).padStart(6,'0');
+
+/* ── FORM STUB ────────────────────────────────────────── */
+/* TODO: Formspree action eklenince bu fonksiyonu kaldır */
+function fakeSubmit(e) {
+  e.preventDefault();
+  alert('Thank you! Your message has been sent.\n\n(Connect form to Formspree or similar service)');
+}
+
+/* ── STATUS BAR HOVER ─────────────────────────────────── */
+document.querySelectorAll('a[href]').forEach(function(a) {
+  a.addEventListener('mouseenter', function() {
+    document.getElementById('status-url').textContent = a.href;
+  });
+  a.addEventListener('mouseleave', function() {
+    document.getElementById('status-url').textContent = document.getElementById('location-input').value;
+  });
+});
+
+</script>
+</body>
+</html>
